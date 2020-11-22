@@ -23,6 +23,7 @@ interface SignUpFormData {
 
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const passwordRef = useRef(null);
   const { addToast } = useToast();
   const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +37,11 @@ const SignUp: React.FC = () => {
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
           password: Yup.string().min(6, ' No mínimo 6 dígitos.'),
+          passwordConfirm: Yup.string()
+            .min(6, ' No mínimo 6 dígitos.')
+            .oneOf([Yup.ref('password')], 'Confirmação da senha não confere.'),
         });
+
         await schema.validate(data, {
           abortEarly: false,
         });
@@ -94,7 +99,7 @@ const SignUp: React.FC = () => {
 
             <Input
               icon={FiLock}
-              name="password"
+              name="passwordConfirm"
               type="password"
               placeholder="Confirmação Senha"
               showPassword={(item: boolean) => {
