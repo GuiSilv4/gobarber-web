@@ -7,6 +7,12 @@ interface ContainerProps {
   isErrored: boolean;
 }
 
+export const EyeButton = styled.div`
+  color: inherit;
+  display: flex;
+  align-items: center;
+`;
+
 export const Container = styled.div<ContainerProps>`
   color: #666360;
   background: #232129;
@@ -50,7 +56,7 @@ export const Container = styled.div<ContainerProps>`
     }
   }
 
-  svg {
+  > svg {
     margin-right: 16px;
   }
 `;
