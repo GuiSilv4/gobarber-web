@@ -13,32 +13,34 @@ import { Container, Error, EyeButton } from './styles';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: React.ComponentType<IconBaseProps>;
+  showPassword?: any;
+  passwordVisible?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ name, icon: Icon, type, ...rest }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  icon: Icon,
+  type,
+  showPassword,
+  passwordVisible,
+  ...rest
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, defaultValue, error, registerField } = useField(name);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
-  const [inputType, setInputType] = useState(type);
 
   const EyeIcon = useCallback(
     () => (
       <EyeButton
         onClick={() => {
-          inputType === 'password'
-            ? setInputType('text')
-            : setInputType('password');
+          passwordVisible ? showPassword(false) : showPassword(true);
         }}
       >
-        {inputType === 'password' ? (
-          <FiEyeOff size={20} />
-        ) : (
-          <FiEye size={20} />
-        )}
+        {passwordVisible ? <FiEye size={20} /> : <FiEyeOff size={20} />}
       </EyeButton>
     ),
-    [inputType],
+    [passwordVisible, showPassword],
   );
 
   const handleInputFocus = useCallback(() => {
@@ -66,7 +68,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, type, ...rest }) => {
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
         {...rest}
-        type={inputType}
+        type={passwordVisible ? 'text' : type}
         ref={inputRef}
       />
       {type === 'password' && <EyeIcon />}

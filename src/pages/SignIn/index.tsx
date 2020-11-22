@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -24,6 +24,7 @@ const SignIn: React.FC = () => {
   const { signIn } = useAuth();
   const { addToast } = useToast();
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
@@ -80,6 +81,10 @@ const SignIn: React.FC = () => {
               name="password"
               type="password"
               placeholder="Senha"
+              showPassword={(item: boolean) => {
+                setShowPassword(item);
+              }}
+              passwordVisible={showPassword}
             />
 
             <Button type="submit">Entrar</Button>

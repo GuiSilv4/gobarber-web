@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { FiMail, FiUser, FiLock, FiArrowLeft } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { Link, useHistory } from 'react-router-dom';
@@ -25,6 +25,7 @@ const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
       try {
@@ -85,6 +86,21 @@ const SignUp: React.FC = () => {
               name="password"
               type="password"
               placeholder="Senha"
+              showPassword={(item: boolean) => {
+                setShowPassword(item);
+              }}
+              passwordVisible={showPassword}
+            />
+
+            <Input
+              icon={FiLock}
+              name="password"
+              type="password"
+              placeholder="Confirmação Senha"
+              showPassword={(item: boolean) => {
+                setShowPassword(item);
+              }}
+              passwordVisible={showPassword}
             />
 
             <Button type="submit">Cadastrar</Button>
